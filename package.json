@@ -1,0 +1,36 @@
+{
+  "name": "due-date-plugin",
+  "version": "0.0.1",
+  "description": "trac due date plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karmapa/due-date-plugin.git"
+  },
+  "keywords": [
+    "trac",
+    "due",
+    "date",
+    "plugin"
+  ],
+  "author": "karmapa",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "2.7.10",
+    "babel-core": "6.11.4",
+    "babel-loader": "6.2.4",
+    "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-polyfill": "6.9.1",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-stage-0": "6.5.0",
+    "babel-register": "6.11.5",
+    "sql.js": "https://github.com/kripken/sql.js.git#2dc4700"
+  },
+  "bugs": {
+    "url": "https://github.com/karmapa/due-date-plugin/issues"
+  },
+  "homepage": "https://github.com/karmapa/due-date-plugin#readme"
+}
