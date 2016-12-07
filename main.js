@@ -1,25 +1,25 @@
-var fs = require('fs');
-var SQL = require('sql.js');
-var naturalSort = require('natural-sort');
+import fs from 'fs';
+import SQL from 'sql.js';
+import naturalSort from 'natural-sort';
 import sendEmail from './sendEmail.js';
-var filebuffer = fs.readFileSync('./trac.db');
+const filebuffer = fs.readFileSync('./trac.db');
 
 // Load the db
-var db = new SQL.Database(filebuffer);
-var date = new Date();
+const db = new SQL.Database(filebuffer);
+const date = new Date();
 
-var today = date.toISOString().split('T')[0];
-var tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0].values;
+const today = date.toISOString().split('T')[0];
+const tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0].values;
 
-var tickets = compareDate(tickieCustom);
-var htmlText = genHtmlText(tickets);
+const tickets = compareDate(tickieCustom);
+const htmlText = genHtmlText(tickets);
 
-sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
+sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'rickie120243@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
-  var text = today + ' trac due day tracker' + '<br/><br/>';
-  for(var key in obj) {
-    var dayRange = key.replace('d', '');
+  let text = today + ' trac due day tracker' + '<br/><br/>';
+  for(let key in obj) {
+    const dayRange = key.replace('d', '');
     if('far' === dayRange) {
       text += 'more than 30 days:' + '<br/>';
     } else if ('0' === dayRange) {
@@ -40,30 +40,30 @@ function genHtmlText(obj) {
 }
 
 function listTickets(arr) {
-  var link = '<a href="https://trac.dharma-treasure.org/ticket/' + arr[1] + '">#' + arr[1] + '</a>';
-  var date = arr[0];
-  var title = arr[2];
+  const link = '<a href="https://trac.dharma-treasure.org/ticket/' + arr[1] + '">#' + arr[1] + '</a>';
+  const date = arr[0];
+  const title = arr[2];
   return '&nbsp;&nbsp;&nbsp;&nbsp;' + date + '&nbsp;&nbsp;' + link + ':&nbsp;' + title + '<br/>';
 }
 
 function convertDateForm(arr) {
-  var dateArr = arr.split('-');  //date format = MM-DD-YYYY
-  var date = [dateArr[2], dateArr[0], dateArr[1]].join('-');  //convert to YYYY-MM-DD
+  const dateArr = arr.split('-');  //date format = MM-DD-YYYY
+  const date = [dateArr[2], dateArr[0], dateArr[1]].join('-');  //convert to YYYY-MM-DD
   return date;
 }
 
 function compareDate(obj) {
-  var d0 = [];
-  var d3 = [];
-  var d7 = [];
-  var d30 = [];
-  var far = [];
-  for(var i in obj) {
-    var ticketDate = convertDateForm(obj[i][2]);
+  let d0 = [];
+  let d3 = [];
+  let d7 = [];
+  let d30 = [];
+  let far = [];
+  for(let i in obj) {
+    const ticketDate = convertDateForm(obj[i][2]);
     if(ticketDate >= today) {
-      var tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + obj[i][0])[0].values[0][0];
-      var timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 24 * 60 * 60));
+      const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + obj[i][0])[0].values[0][0];
+      const timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
+      const daysDiff = Math.ceil(timeDiff / (1000 * 24 * 60 * 60));
       if(0 === daysDiff) {
         d0.push([ticketDate, obj[i][0], tickieTitle]);
       }
