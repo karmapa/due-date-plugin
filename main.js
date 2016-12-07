@@ -2,7 +2,7 @@ import fs from 'fs';
 import SQL from 'sql.js';
 import naturalSort from 'natural-sort';
 import sendEmail from './sendEmail.js';
-const filebuffer = fs.readFileSync('./trac.db');
+const filebuffer = fs.readFileSync('../trac.db');
 
 // Load the db
 const db = new SQL.Database(filebuffer);
@@ -14,7 +14,7 @@ const tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0]
 const tickets = compareDate(tickieCustom);
 const htmlText = genHtmlText(tickets);
 
-sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'rickie120243@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
+sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
