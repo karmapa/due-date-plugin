@@ -16,8 +16,8 @@ console.log(tickets);
 
 function convertDateForm(arr) {
   var dateArr = arr.split('-');  //date format = MM-DD-YYYY
-  var dateUSA = [dateArr[2], dateArr[0], dateArr[1]].join('-');  //convert to YYYY-MM-DD
-  return dateUSA;
+  var date = [dateArr[2], dateArr[0], dateArr[1]].join('-');  //convert to YYYY-MM-DD
+  return date;
 }
 
 function compareDate(obj) {
