@@ -18,15 +18,29 @@ var htmlText = genHtmlText(tickets);
 console.log(htmlText);
 
 //tickets = JSON.stringify(tickets);
-sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'rickie120243@gmail.com', subject: 'due date', htmlBody: htmlText, textBody: htmlText});
+sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
-  var text = today + ' Trac due day tracker' + '<br/><br/>';
+  var text = today + ' trac due day tracker' + '<br/><br/>';
 //  console.log(obj['d0'])
-  text += 'within ' + '3' + ' days:<br/>';
-  obj['d3'].map(function(arr) {
-    text += listTickets(arr);
-  });
+  for(var key in obj) {
+    var dayRange = key.replace('d', '');
+    if('far' === dayRange) {
+      text += 'more than 30 days:' + '<br/>';
+    } else if ('0' === dayRange) {
+      text += 'within ' + dayRange + ' day:' + '<br/>';
+    } else {
+      text += 'within ' + dayRange + ' days:' + '<br/>';
+    }
+    if (0 === obj[key].length) {
+      text += '&nbsp;&nbsp;&nbsp;&nbsp;' + 'none' + '<br/><br/>';
+    } else {
+      obj[key].map(function(arr) {
+        text += listTickets(arr);
+      });
+    text += '<br/>'
+    }
+  }
   return text;
 }
 
@@ -35,10 +49,10 @@ function genPureText() {
 }
 
 function listTickets(arr) {
-  var link = '<a href="http://rickie120243.dharma-treasure.org/ticket/' + arr[1] + '">#' + arr[1] + '</a>';
-  var text = 'due date: ' + arr[0];
+  var link = '<a href="https://trac.dharma-treasure.org/ticket/' + arr[1] + '">#' + arr[1] + '</a>';
+  var date = arr[0];
   var title = arr[2];
-  return '  ' + link + ': ' + title + '  ' + text + '<br/>';
+  return '&nbsp;&nbsp;&nbsp;&nbsp;' + date + '&nbsp;&nbsp;' + link + ':&nbsp;' + title + '<br/>';
 }
 
 function convertDateForm(arr) {
@@ -59,7 +73,7 @@ function compareDate(obj) {
       var tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + obj[i][0])[0].values[0][0];
       var timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
       var daysDiff = Math.ceil(timeDiff / (1000 * 24 * 60 * 60));
-      if(daysDiff === 0) {
+      if(0 === daysDiff) {
         d0.push([ticketDate, obj[i][0], tickieTitle]);
       }
       if(3 >= daysDiff && daysDiff > 0) {
