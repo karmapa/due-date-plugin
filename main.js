@@ -49,10 +49,10 @@ function compareDate(obj) {
     }
   }
   return {
-    d0 : d0.sort(naturalSort()),
-    d3 : d3.sort(naturalSort()),
-    d7 : d7.sort(naturalSort()),
-    d30 : d30.sort(naturalSort()),
-    far : far.sort(naturalSort())
+    d0: d0.sort(naturalSort()),
+    d3: d3.sort(naturalSort()),
+    d7: d7.sort(naturalSort()),
+    d30: d30.sort(naturalSort()),
+    far: far.sort(naturalSort())
   };
 }
