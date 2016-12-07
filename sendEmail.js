@@ -12,7 +12,7 @@ AWS.config.region = 'us-west-2';
 
 const ses = new AWS.SES();
 
-export  default function sendEmail({from, to, subject = '', htmlBody = '', textBody = ''}) {
+export default function sendEmail({from, to, subject = '', htmlBody = '', textBody = ''}) {
   return new Promise((resolve, reject) => {
 
     if ('string' === typeof to) {
@@ -39,5 +39,3 @@ export  default function sendEmail({from, to, subject = '', htmlBody = '', textB
     ses.sendEmail(params, (err, data) => err ? reject(err) : resolve(data));
   });
 }
-
-sendEmail({from: 'dharma.treasure.corp@gmail.com', to: 'rickie120243@gmail.com', subject: 'test', htmlBody: 'hello', textBody: 'hello'});
