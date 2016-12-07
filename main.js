@@ -12,17 +12,12 @@ var today = date.toISOString().split('T')[0];
 var tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0].values;
 
 var tickets = compareDate(tickieCustom);
-console.log(today);
-console.log(tickets);
 var htmlText = genHtmlText(tickets);
-console.log(htmlText);
 
-//tickets = JSON.stringify(tickets);
 sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
   var text = today + ' trac due day tracker' + '<br/><br/>';
-//  console.log(obj['d0'])
   for(var key in obj) {
     var dayRange = key.replace('d', '');
     if('far' === dayRange) {
@@ -42,10 +37,6 @@ function genHtmlText(obj) {
     }
   }
   return text;
-}
-
-function genPureText() {
-
 }
 
 function listTickets(arr) {
