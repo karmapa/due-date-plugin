@@ -15,7 +15,7 @@ const tickets = compareDate(tickieCustom);
 console.log(tickets);
 const htmlText = genHtmlText(tickets);
 
-sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
+sendEmail({from: '', to: '', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
