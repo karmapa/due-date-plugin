@@ -53,11 +53,11 @@ function convertDateForm(arr) {
 }
 
 function compareDate(obj) {
-  let d0 = [];
-  let d3 = [];
-  let d7 = [];
-  let d30 = [];
-  let far = [];
+  const d0 = [];
+  const d3 = [];
+  const d7 = [];
+  const d30 = [];
+  const far = [];
   for(let i in obj) {
     const ticketDate = convertDateForm(obj[i][2]);
     if(ticketDate >= today) {
