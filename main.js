@@ -12,6 +12,7 @@ const today = date.toISOString().split('T')[0];
 const tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0].values;
 
 const tickets = compareDate(tickieCustom);
+console.log(tickets);
 const htmlText = genHtmlText(tickets);
 
 sendEmail({from: 'trac@trac.dharma-treasure.org', to: 'lachrymoseirene@gmail.com', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
@@ -61,23 +62,24 @@ function compareDate(obj) {
   for(let i in obj) {
     const ticketDate = convertDateForm(obj[i][2]);
     if(ticketDate >= today) {
-      const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + obj[i][0])[0].values[0][0];
+      const ticketId = obj[i][0]
+      const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + ticketId)[0].values[0][0];
       const timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
       const daysDiff = Math.ceil(timeDiff / (1000 * 24 * 60 * 60));
       if(0 === daysDiff) {
-        d0.push([ticketDate, obj[i][0], tickieTitle]);
+        d0.push([ticketDate, ticketId, tickieTitle]);
       }
       if(3 >= daysDiff && daysDiff > 0) {
-        d3.push([ticketDate, obj[i][0], tickieTitle]);
+        d3.push([ticketDate, ticketId, tickieTitle]);
       }
       if(7 >= daysDiff && daysDiff > 3) {
-        d7.push([ticketDate, obj[i][0], tickieTitle]);
+        d7.push([ticketDate, ticketId, tickieTitle]);
       }
       if(30 >= daysDiff && daysDiff > 7) {
-        d30.push([ticketDate, obj[i][0], tickieTitle]);
+        d30.push([ticketDate, ticketId, tickieTitle]);
       }
       if(daysDiff > 30) {
-        far.push([ticketDate, obj[i][0], tickieTitle]);
+        far.push([ticketDate, ticketId, tickieTitle]);
       }
     }
   }
