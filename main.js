@@ -15,7 +15,7 @@ const tickets = compareDate(tickieCustom);
 console.log(tickets);
 const htmlText = genHtmlText(tickets);
 
-sendEmail({from: '', to: '', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
+//sendEmail({from: '', to: '', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
 
 function genHtmlText(obj) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
@@ -34,7 +34,7 @@ function genHtmlText(obj) {
       obj[key].map(function(arr) {
         text += listTickets(arr);
       });
-    text += '<br/>'
+    text += '<br/>';
     }
   }
   return text;
@@ -83,11 +83,15 @@ function compareDate(obj) {
       }
     }
   }
-  return {
-    d0: d0.sort(naturalSort()),
-    d3: d3.sort(naturalSort()),
-    d7: d7.sort(naturalSort()),
-    d30: d30.sort(naturalSort()),
-    far: far.sort(naturalSort())
+  const output = {
+    d0: d0,
+    d3: d3,
+    d7: d7,
+    d30: d30,
+    far: far
   };
+  for(let i in output) {
+    output[i] = output[i].sort(naturalSort());
+  }
+  return output;
 }
