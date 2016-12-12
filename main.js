@@ -9,7 +9,7 @@ const db = new SQL.Database(filebuffer);
 const date = new Date();
 
 const today = date.toISOString().split('T')[0];
-const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.name, ticket_custom.value ' +
+const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.value ' +
   'FROM ticket_custom, ticket ' +
   'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed" ' +
   'AND ticket_custom.name = "due_date"';
@@ -71,7 +71,7 @@ function compareDate(obj) {
   const d30 = [];
   const far = [];
   for(let i in obj) {
-    const ticketDate = convertDateForm(obj[i][2]);
+    const ticketDate = convertDateForm(obj[i][1]);
     const ticketId = obj[i][0];
     const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + ticketId)[0].values[0][0];
     const timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
