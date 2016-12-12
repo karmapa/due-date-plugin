@@ -14,10 +14,15 @@ const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.name, ticket_custom.
   'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed"';
 const tickietCustom = db.exec(sqlText)[0].values;
 const tickets = compareDate(tickietCustom);
-console.log(tickets);
 const htmlText = genHtmlText(tickets);
+const pureText = genPureText(htmlText);
 
-//sendEmail({from: '', to: '', subject: 'trac due date', htmlBody: htmlText, textBody: htmlText});
+sendEmail({from: '', to: '', subject: 'trac due date', htmlBody: htmlText, textBody: pureText});
+
+function genPureText(xml) {
+  const text = xml.replace(/<br\/>/g, '\n').replace(/&nbsp;/g, ' ').replace(/<.+?>/g, '');
+  return text;
+}
 
 function genHtmlText(obj) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
