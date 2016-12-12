@@ -11,7 +11,8 @@ const date = new Date();
 const today = date.toISOString().split('T')[0];
 const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.name, ticket_custom.value ' +
   'FROM ticket_custom, ticket ' +
-  'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed"';
+  'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed" ' +
+  'AND ticket_custom.name = "due_date"';
 const tickietCustom = db.exec(sqlText)[0].values;
 const tickets = compareDate(tickietCustom);
 const htmlText = genHtmlText(tickets);
