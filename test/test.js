@@ -32,13 +32,14 @@ sqlstr += 'INSERT INTO ticket_custom VALUES (9, "parents", "");';
 db.run(sqlstr);
 
 describe('test sql', function () {
+  let arr;
   it('select correct sql', function () {
     const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.value ' +
       'FROM ticket_custom, ticket ' +
       'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed" ' +
       'AND ticket_custom.name = "due_date"';
     const tickietCustom = db.exec(sqlText)[0].values;
-    console.log(tickietCustom);
+    arr = tickietCustom;
     const result = [
       [1, '12-02-2016'],
       [2, '12-12-2016'],
