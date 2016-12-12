@@ -1,2 +1,5 @@
 node_modules/
 trac.db
+test/test.js
+test/main.js
+test/sendEmail.js
