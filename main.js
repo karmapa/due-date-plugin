@@ -9,9 +9,11 @@ const db = new SQL.Database(filebuffer);
 const date = new Date();
 
 const today = date.toISOString().split('T')[0];
-const tickieCustom = db.exec('SELECT * FROM ticket_custom WHERE value != ""')[0].values;
-
-const tickets = compareDate(tickieCustom);
+const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.name, ticket_custom.value ' +
+  'FROM ticket_custom, ticket ' +
+  'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed"';
+const tickietCustom = db.exec(sqlText)[0].values;
+const tickets = compareDate(tickietCustom);
 console.log(tickets);
 const htmlText = genHtmlText(tickets);
 
@@ -21,10 +23,12 @@ function genHtmlText(obj) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
   for(let key in obj) {
     const dayRange = key.replace('d', '');
-    if('far' === dayRange) {
+    if('overDue' === dayRange) {
+      text += 'over due:' + '<br/>';
+    } else if('far' === dayRange) {
       text += 'more than 30 days:' + '<br/>';
     } else if ('0' === dayRange) {
-      text += 'within ' + dayRange + ' day:' + '<br/>';
+      text += 'today:' + '<br/>';
     } else {
       text += 'within ' + dayRange + ' days:' + '<br/>';
     }
@@ -54,6 +58,7 @@ function convertDateForm(arr) {
 }
 
 function compareDate(obj) {
+  const overDue = [];
   const d0 = [];
   const d3 = [];
   const d7 = [];
@@ -61,29 +66,31 @@ function compareDate(obj) {
   const far = [];
   for(let i in obj) {
     const ticketDate = convertDateForm(obj[i][2]);
-    if(ticketDate >= today) {
-      const ticketId = obj[i][0]
-      const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + ticketId)[0].values[0][0];
-      const timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
-      const daysDiff = Math.ceil(timeDiff / (1000 * 24 * 60 * 60));
-      if(0 === daysDiff) {
-        d0.push([ticketDate, ticketId, tickieTitle]);
-      }
-      if(3 >= daysDiff && daysDiff > 0) {
-        d3.push([ticketDate, ticketId, tickieTitle]);
-      }
-      if(7 >= daysDiff && daysDiff > 3) {
-        d7.push([ticketDate, ticketId, tickieTitle]);
-      }
-      if(30 >= daysDiff && daysDiff > 7) {
-        d30.push([ticketDate, ticketId, tickieTitle]);
-      }
-      if(daysDiff > 30) {
-        far.push([ticketDate, ticketId, tickieTitle]);
-      }
+    const ticketId = obj[i][0];
+    const tickieTitle = db.exec('SELECT summary FROM ticket WHERE id = ' + ticketId)[0].values[0][0];
+    const timeDiff = (new Date(ticketDate).getTime() - new Date(today).getTime());
+    const daysDiff = timeDiff / (1000 * 24 * 60 * 60);
+    if(0 > daysDiff) {
+      overDue.push([ticketDate, ticketId, tickieTitle]);
+    }
+    if(0 === daysDiff) {
+      d0.push([ticketDate, ticketId, tickieTitle]);
+    }
+    if(3 >= daysDiff && daysDiff > 0) {
+      d3.push([ticketDate, ticketId, tickieTitle]);
+    }
+    if(7 >= daysDiff && daysDiff > 3) {
+      d7.push([ticketDate, ticketId, tickieTitle]);
+    }
+    if(30 >= daysDiff && daysDiff > 7) {
+      d30.push([ticketDate, ticketId, tickieTitle]);
+    }
+    if(daysDiff > 30) {
+      far.push([ticketDate, ticketId, tickieTitle]);
     }
   }
   const output = {
+    overDue: overDue,
     d0: d0,
     d3: d3,
     d7: d7,
