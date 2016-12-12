@@ -4,7 +4,8 @@
   "description": "trac due date plugin",
   "main": "index.js",
   "scripts": {
-    "test": "echo $0 && ./test/test.sh"
+    "local-test": "./test/test.sh",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
