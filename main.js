@@ -14,7 +14,7 @@ const sqlText = 'SELECT ticket_custom.ticket, ticket_custom.value ' +
   'WHERE ticket_custom.ticket = ticket.id AND ticket_custom.value != "" AND ticket.status != "closed" ' +
   'AND ticket_custom.name = "due_date"';
 const tickietCustom = db.exec(sqlText)[0].values;
-const tickets = compareDate(tickietCustom);
+const tickets = compareDate(tickietCustom, db);
 const htmlText = genHtmlText(tickets);
 const pureText = genPureText(htmlText);
 
@@ -63,7 +63,7 @@ function convertDateForm(arr) {
   return date;
 }
 
-function compareDate(obj) {
+function compareDate(obj, db) {
   const overDue = [];
   const d0 = [];
   const d3 = [];
