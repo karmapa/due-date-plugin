@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cp ./main.js ./test
 cd ./test
