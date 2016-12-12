@@ -11,7 +11,7 @@ sqlstr += 'INSERT INTO ticket VALUES (4, "accepted", "test4");';
 sqlstr += 'INSERT INTO ticket VALUES (5, "new", "test5");';
 sqlstr += 'INSERT INTO ticket VALUES (6, "accepted", "test6");';
 sqlstr += 'INSERT INTO ticket VALUES (7, "new", "test7");';
-sqlstr += 'INSERT INTO ticket VALUES (9, "accepted", "test8");';
+sqlstr += 'INSERT INTO ticket VALUES (9, "accepted", "test9");';
 sqlstr += 'CREATE TABLE ticket_custom (ticket int, name char, value char);';
 sqlstr += 'INSERT INTO ticket_custom VALUES (1, "due_date", "12-02-2016");';
 sqlstr += 'INSERT INTO ticket_custom VALUES (1, "parents", "");';
@@ -49,5 +49,28 @@ describe('test sql', function () {
       [9, '12-13-2016']
     ];
     assert.deepEqual(result, tickietCustom);
+  });
+  it('test compareDate', function () {
+    const tickets = compareDate(arr, db);
+    const result = {
+      overDue: [
+        ['2016-12-02', 1, 'test1']
+      ],
+      d0: [
+        ['2016-12-12', 2, 'test2']
+      ],
+      d3: [
+        ['2016-12-13', 9, 'test9']
+      ],
+      d7: [],
+      d30: [
+        ['2016-12-20', 4, 'test4'],
+        ['2017-01-02', 5, 'test5']
+      ],
+      far: [
+        ['2017-02-02', 6, 'test6']
+      ]
+    };
+    assert.deepEqual(result, tickets);
   });
 });
