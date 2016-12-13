@@ -5,7 +5,7 @@ export function genPureText(xml) {
   return text;
 }
 
-export function genHtmlText(obj) {
+export function genHtmlText(obj, today) {
   let text = today + ' trac due day tracker' + '<br/><br/>';
   for(let key in obj) {
     const dayRange = key.replace('d', '');
