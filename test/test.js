@@ -1,5 +1,5 @@
 import SQL from 'sql.js';
-import {compareDate} from '../libs/main.js';
+import compareDate from '../libs/compareDate.js';
 import assert from 'assert';
 
 const db = new SQL.Database();
