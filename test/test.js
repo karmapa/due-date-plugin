@@ -1,5 +1,5 @@
 import SQL from 'sql.js';
-import {compareDate} from './main.js';
+import {compareDate} from '../main.js';
 import assert from 'assert';
 
 const db = new SQL.Database();
@@ -51,7 +51,8 @@ describe('test sql', function () {
     assert.deepEqual(result, tickietCustom);
   });
   it('test compareDate', function () {
-    const tickets = compareDate(arr, db);
+    const testDay = '2016-12-12';
+    const tickets = compareDate(arr, db, testDay);
     const result = {
       overDue: [
         ['2016-12-02', 1, 'test1']
