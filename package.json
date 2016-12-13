@@ -4,7 +4,6 @@
   "description": "trac due date plugin",
   "main": "index.js",
   "scripts": {
-    "local-test": "./test/test.sh",
     "test": "mocha --compilers js:babel-core/register"
   },
   "repository": {
